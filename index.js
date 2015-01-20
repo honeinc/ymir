@@ -26,7 +26,11 @@ Ymir.prototype = Object.create( EventEmitter.prototype, {
 
 Ymir.prototype.addView = function( view ) {
     var isView = Ymir.isView( view );
-    if ( this.views.id ) {
+    if ( !isView ){
+        this.emit( 'error', new Error( 'Issue adding view: invalid view' ) );
+        return false;
+    }
+    if ( this.views[ view.id ] ) {
         this.emit( 'error', new Error( 'Issue adding view with the id ' + view.id + ': duplicate id' ) );
         return false;
     } 
@@ -75,7 +79,7 @@ Ymir.prototype._mapViews = function( viewName ) {
 };
 
 Ymir.prototype._appendToList = function( view ) {
-    var el = document.createElement( this.options.listItemTagName || '' );
+    var el = document.createElement( this.options.listItemTagName || 'div' );
     el.innerHTML = view.id
     el.addEventListener( 'click', this.open.bind( this, view.id ) ); 
     this.list.appendChild( el );
