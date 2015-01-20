@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+    - "0.10"
+    - "0.11"
+before_install:
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
+notifications:
+    slack:
+        rooms:
+            - secure: "ObsrQ/duTz0JftMOjhKTpYMB/VrgBDczUD+/LGKWdFLgIJBNPIjL/pRpj+UhDtOXPY/kOnpLbyc5oCtJRtZLMFCfRN6u78aUCYTTCUuu0YUoxbp5pR9DaDAw243ytU38JMM1EkjtMHI7lxO02X3cAb6X+TBO33HAmkvumNI3BVg="

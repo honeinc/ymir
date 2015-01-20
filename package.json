@@ -1,0 +1,20 @@
+{
+  "name": "ymir",
+  "version": "0.1.0",
+  "description": "a way to manage an active view.",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify examples/index.js -o examples/bundle.js -d",
+    "test": "browserify test/*.js | tape-run -b firefox"
+  },
+  "author": "Jacob Lowe",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^8.1.1",
+    "tape": "^3.4.0",
+    "tape-run": "^0.3.0"
+  },
+  "dependencies": {
+    "eventemitter2": "^0.4.14"
+  }
+}
