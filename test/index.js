@@ -91,3 +91,19 @@ test( 'testing Ymir::addView', function( t ) {
     t.equals( view.el.classList.contains( 'bar' ), false, 'when adding a view with an element that has the "showClass" it will be removed from the element' );
     t.end();        
 });
+
+test( 'testing Ymir::removeView', function( t ) {
+    var ymir = new Ymir( );
+        view = {
+            id: 'foo',
+            el: document.createElement( 'div' )
+        };
+
+    ymir.addView( view );
+    ymir.removeView( 'foo' );
+
+    t.equals( ymir.el.children.length, 0, 'when removing a previously added view the view should be removed from the Ymir.el' );
+    t.equals( ymir.list.children.length, 0, 'when removing a previously added view the views link in the list should be removed from Ymir.list' );
+    t.equals( typeof ymir.views[ 'foo' ], 'undefined', 'when a previously added view is removed from the Ymir.views cache' );
+    t.end();
+});

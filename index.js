@@ -48,6 +48,24 @@ Ymir.prototype.addView = function( view ) {
     return true;
 };
 
+Ymir.prototype.removeView = function( id ) {
+    var view = this.views[ id ],
+        link;
+
+    if ( !view ) {
+        return false;
+    }
+    if ( this._isDynamic ) {
+        this.el.removeChild( view.el );
+        if ( view.linkto !== false ) {
+            link = this.list.querySelector( '[data-linkto=' + view.id + ']' );
+            this.list.removeChild( link );        
+        }
+    }
+    delete this.views[ id ];
+    return true;
+};
+
 Ymir.prototype.open = function( id ) {
     var view;
     if ( id && this.views[ id ] ) {
@@ -80,7 +98,8 @@ Ymir.prototype._mapViews = function( viewName ) {
 
 Ymir.prototype._appendToList = function( view ) {
     var el = document.createElement( this.options.listItemTagName || 'div' );
-    el.innerHTML = view.id
+    el.innerHTML = view.id;
+    el.setAttribute( 'data-linkto', view.id );
     el.addEventListener( 'click', this.open.bind( this, view.id ) ); 
     this.list.appendChild( el );
 };
