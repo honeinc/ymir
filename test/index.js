@@ -39,7 +39,7 @@ test( 'testing Ymir::addView invalid view', function( t ) {
         t.end();
     });
 
-    ymir.addView();
+    t.equals( ymir.addView(), false, 'when adding a view to Ymir via the addView method if the view is not added the function will return false' );
 });
 
 test( 'testing Ymir::addView duplicate id', function( t ) {
@@ -77,3 +77,17 @@ test( 'testing Ymir::addView dynamic', function( t ) {
 
 });
 
+test( 'testing Ymir::addView', function( t ) {
+    var ymir = new Ymir( { showClass: 'bar' } ),
+        view = {
+            id: 'foo',
+            el: document.createElement( 'div' )
+        };
+
+    view.el.classList.add( 'bar' );
+    t.equals( ymir.addView( view ), true, 'when adding a valid view to ymir using addView the function will return true if successful' );
+    t.equals( ymir.viewList[ 0 ].id, 'foo', 'when a view is added to ymir using addView the viewList should contain that view' );
+    t.equals( typeof ymir.views['foo'], 'object', 'when adding a view to ymir via addView the view should be accessable from the views property by id' );
+    t.equals( view.el.classList.contains( 'bar' ), false, 'when adding a view with an element that has the "showClass" it will be removed from the element' );
+    t.end();        
+});
