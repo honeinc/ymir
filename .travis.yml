@@ -8,7 +8,4 @@ before_install:
 notifications:
   slack:
     rooms:
-    - secure: ObsrQ/duTz0JftMOjhKTpYMB/VrgBDczUD+/LGKWdFLgIJBNPIjL/pRpj+UhDtOXPY/kOnpLbyc5oCtJRtZLMFCfRN6u78aUCYTTCUuu0YUoxbp5pR9DaDAw243ytU38JMM1EkjtMHI7lxO02X3cAb6X+TBO33HAmkvumNI3BVg=
-env:
-  global:
-    secure: RMPTCeKHb1btoxRt4njyPzuPKM+CarraWYTfGv/IfPLW6e2tuXDg68jYLNsb2g5CjKzeTZMV/Cye43RsxLmt+qgdDOjXPtedTKzENubB7fJAYVUyq1+rY1lawGRLtwoTxIRAh+Dwsg5TxTV8m6Cb6vG8X0XpNvzPm35zADQordg=
+    - secure: RMPTCeKHb1btoxRt4njyPzuPKM+CarraWYTfGv/IfPLW6e2tuXDg68jYLNsb2g5CjKzeTZMV/Cye43RsxLmt+qgdDOjXPtedTKzENubB7fJAYVUyq1+rY1lawGRLtwoTxIRAh+Dwsg5TxTV8m6Cb6vG8X0XpNvzPm35zADQordg=
