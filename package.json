@@ -1,6 +1,6 @@
 {
   "name": "ymir",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "description": "a way to manage an active view.",
   "main": "index.js",
   "scripts": {
