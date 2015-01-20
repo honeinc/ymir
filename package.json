@@ -7,6 +7,15 @@
     "build": "browserify examples/index.js -o examples/bundle.js -d",
     "test": "browserify test/*.js | tape-run -b firefox"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/honeinc/ymir.git"
+  },
+  "keywords": [
+    "view",
+    "manager",
+    "hone"  
+  ],
   "author": "Jacob Lowe",
   "license": "MIT",
   "devDependencies": {

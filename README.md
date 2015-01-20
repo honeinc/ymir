@@ -1,4 +1,4 @@
-# Ymir
+# Ymir [![Build Status](https://travis-ci.org/honeinc/ymir.svg?branch=v0.1.0)](https://travis-ci.org/honeinc/ymir)
 
 Ymir is the a base view manager. It is very general and can be used for differnt UI components.
 
