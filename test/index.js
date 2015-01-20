@@ -18,5 +18,13 @@ test( 'testing Ymir', function( t ) {
 } );
 
 test( 'testing Ymir input options', function( t ){
-    t.end();
+      var elTest = document.createElement( 'div' );
+      t.equals( new Ymir({ el: elTest, }).el, elTest, 'when an el property is passed to Ymil constructor in the option object it is set to the el property of the Ymir instance' );
+      t.equals( new Ymir({ listEl: elTest }).list, elTest, 'when a listEl property is passed to Ymir constructor in the option object it is set to the list property of the Ymil instance' );
+      t.equals( new Ymir({ tagName: 'section' }).el.tagName, 'SECTION', 'when an tagName property is passed to Ymir constructor in the option object it is sets the el tagName property to the tagName specified' );
+       t.equals( new Ymir({ listTagName: 'ul' }).list.tagName, 'UL', 'when an ListTagName property is passed to Ymir constructor in the option object it is sets the list tagName property to the tagName specified' );
+       t.equals( new Ymir({ className: 'foo' }).el.className, 'foo', 'when the className property is passed to Ymir constructor in the options object it sets the className of the el property' );
+       t.equals( new Ymir({ showClass: 'bar' }).options.showClass, 'bar', 'when passing the showClass property the options.showClass property is set to that value');
+       t.equals( new Ymir({ dynamic: false })._isDynamic, false, 'when the proprty dynamic is set to false on the options object passed to Ymir constructor it will set the property _isDynamic to that value' );
+       t.end();
 });
