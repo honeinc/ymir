@@ -1,4 +1,3 @@
-
 var EventEmitter = require( 'eventemitter2' ).EventEmitter2;
 
 module.exports.Ymir = Ymir;
