@@ -69,6 +69,8 @@ Ymir.prototype.removeView = function( id ) {
 Ymir.prototype.open = function( id, listItem, e ) {
     var view;
 
+    e = e || {};
+
     if ( e.ymirHandled ) {
         return;
     }
@@ -83,7 +85,9 @@ Ymir.prototype.open = function( id, listItem, e ) {
         view.el.classList.add( this.options.showClass );
         this._closeViews( id );
         this.list.children.forEach( Ymir.removeActive );
-        listItem.classList.add( 'active' );
+        if ( listItem ) {
+          listItem.classList.add( 'active' );
+        }
     }
 };
 
