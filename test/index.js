@@ -1,4 +1,4 @@
-var test = require( 'tape' ),   
+var test = require( 'tape' ),
     Ymir = require( '..' ).Ymir,
     EventEmitter2 = require( 'eventemitter2' ).EventEmitter2;
 
@@ -48,7 +48,7 @@ test( 'testing Ymir::addView duplicate id', function( t ) {
             id: 'foo',
             el: document.createElement( 'section' )
         };
-    
+
     ymir.on( 'error', function( err ) {
         t.equals( err instanceof Error, true, 'When a view, with a duplicate id, is added to an instance of Ymir the error event is called and passes and error object' );
         t.equals( /duplicate id/i.test( err.message ), true, 'When a view, with a duplicate id, is added the error that is given has "duplicate id" in it' );
@@ -89,7 +89,7 @@ test( 'testing Ymir::addView', function( t ) {
     t.equals( ymir.viewList[ 0 ].id, 'foo', 'when a view is added to ymir using addView the viewList should contain that view' );
     t.equals( typeof ymir.views['foo'], 'object', 'when adding a view to ymir via addView the view should be accessable from the views property by id' );
     t.equals( view.el.classList.contains( 'bar' ), false, 'when adding a view with an element that has the "showClass" it will be removed from the element' );
-    t.end();        
+    t.end();
 });
 
 test( 'testing Ymir::removeView', function( t ) {
@@ -105,5 +105,13 @@ test( 'testing Ymir::removeView', function( t ) {
     t.equals( ymir.el.children.length, 0, 'when removing a previously added view the view should be removed from the Ymir.el' );
     t.equals( ymir.list.children.length, 0, 'when removing a previously added view the views link in the list should be removed from Ymir.list' );
     t.equals( typeof ymir.views[ 'foo' ], 'undefined', 'when a previously added view is removed from the Ymir.views cache' );
+    t.end();
+});
+
+test( 'testing Ymir.removeActive', function( t ) {
+    var foo = document.createElement( 'div' );
+    foo.classList.add( 'active' );
+    Ymir.removeActive( foo );
+    t.equals( foo.classList.contains( 'active' ), false, 'when Ymir.removeActive is passed a DOM element the active class will be removed from that element' );
     t.end();
 });

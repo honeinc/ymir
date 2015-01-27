@@ -65,8 +65,16 @@ Ymir.prototype.removeView = function( id ) {
     return true;
 };
 
-Ymir.prototype.open = function( id ) {
+Ymir.prototype.open = function( id, listItem, e ) {
     var view;
+
+    e = e || {};
+
+    if ( e.ymirHandled ) {
+        return;
+    }
+    e.ymirHandled = true;
+
     if ( id && this.views[ id ] ) {
         view = this.views[ id ];
         if ( view.isShown ) {
@@ -75,6 +83,10 @@ Ymir.prototype.open = function( id ) {
         view.isShown = true;
         view.el.classList.add( this.options.showClass );
         this._closeViews( id );
+        this.list.children.forEach( Ymir.removeActive );
+        if ( listItem ) {
+          listItem.classList.add( 'active' );
+        }
     }
 };
 
@@ -95,12 +107,17 @@ Ymir.prototype._mapViews = function( viewName ) {
     return this.views[ viewName ];
 };
 
-Ymir.prototype._appendToList = function( view ) {
+Ymir.prototype._appendToList = function( view, el ) {
     var el = document.createElement( this.options.listItemTagName || 'div' );
     el.innerHTML = view.id;
     el.setAttribute( 'data-linkto', view.id );
-    el.addEventListener( 'click', this.open.bind( this, view.id ) );
+    el.addEventListener( 'touchstart', this.open.bind( this, view.id, el ) );
+    el.addEventListener( 'click', this.open.bind( this, view.id, el ) );
     this.list.appendChild( el );
+};
+
+Ymir.removeActive = function( listItem ) {
+    listItem.classList.remove( 'active' );
 };
 
 Ymir.isView = function( view ) {
