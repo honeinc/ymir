@@ -3,7 +3,7 @@ var EventEmitter = require( 'eventemitter2' ).EventEmitter2;
 
 module.exports.Ymir = Ymir;
 
-function Ymir( options ) { 
+function Ymir( options ) {
     options = options || {};
 
     EventEmitter.call( this );
@@ -33,7 +33,7 @@ Ymir.prototype.addView = function( view ) {
     if ( this.views[ view.id ] ) {
         this.emit( 'error', new Error( 'Issue adding view with the id ' + view.id + ': duplicate id' ) );
         return false;
-    } 
+    }
     if ( this._isDynamic ) {
         this.el.appendChild( view.el );
         if ( view.linkto !== false ) {
@@ -59,15 +59,21 @@ Ymir.prototype.removeView = function( id ) {
         this.el.removeChild( view.el );
         if ( view.linkto !== false ) {
             link = this.list.querySelector( '[data-linkto=' + view.id + ']' );
-            this.list.removeChild( link );        
+            this.list.removeChild( link );
         }
     }
     delete this.views[ id ];
     return true;
 };
 
-Ymir.prototype.open = function( id ) {
+Ymir.prototype.open = function( id, listItem, e ) {
     var view;
+
+    if ( e.ymirHandled ) {
+        return;
+    }
+    e.ymirHandled = true;
+
     if ( id && this.views[ id ] ) {
         view = this.views[ id ];
         if ( view.isShown ) {
@@ -76,11 +82,13 @@ Ymir.prototype.open = function( id ) {
         view.isShown = true;
         view.el.classList.add( this.options.showClass );
         this._closeViews( id );
+        this.list.children.forEach( Ymir.removeActive );
+        listItem.classList.add( 'active' );
     }
 };
 
 Ymir.prototype._closeViews = function( id ) {
-      
+
     var showClass = this.options.showClass || 'show';
     function eachView( view ) {
         if ( view.isShown && view.id !== id ) {
@@ -89,25 +97,30 @@ Ymir.prototype._closeViews = function( id ) {
         }
     }
 
-    this.viewList.forEach( eachView );  
+    this.viewList.forEach( eachView );
 };
 
 Ymir.prototype._mapViews = function( viewName ) {
     return this.views[ viewName ];
 };
 
-Ymir.prototype._appendToList = function( view ) {
+Ymir.prototype._appendToList = function( view, el ) {
     var el = document.createElement( this.options.listItemTagName || 'div' );
     el.innerHTML = view.id;
     el.setAttribute( 'data-linkto', view.id );
-    el.addEventListener( 'click', this.open.bind( this, view.id ) ); 
+    el.addEventListener( 'touchstart', this.open.bind( this, view.id, el ) );
+    el.addEventListener( 'click', this.open.bind( this, view.id, el ) );
     this.list.appendChild( el );
 };
 
+Ymir.removeActive = function( listItem ) {
+    listItem.classList.remove( 'active' );
+};
+
 Ymir.isView = function( view ) {
-    return view && 
-        typeof view === 'object' && 
-        typeof view.el === 'object' && 
+    return view &&
+        typeof view === 'object' &&
+        typeof view.el === 'object' &&
         view.el.tagName &&
         view.id; // test all requirements of a view
 };
