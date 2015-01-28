@@ -1,4 +1,3 @@
-
 var EventEmitter = require( 'eventemitter2' ).EventEmitter2;
 
 module.exports.Ymir = Ymir;
@@ -66,8 +65,11 @@ Ymir.prototype.removeView = function( id ) {
     return true;
 };
 
-Ymir.prototype.open = function( id, listItem, e ) {
-    var view;
+Ymir.prototype.open = function( id, e ) {
+    var activeClass = this.options.activeClass || 'active',
+        view,
+        listItems,
+        listItem;
 
     e = e || {};
 
@@ -77,16 +79,21 @@ Ymir.prototype.open = function( id, listItem, e ) {
     e.ymirHandled = true;
 
     if ( id && this.views[ id ] ) {
+
         view = this.views[ id ];
         if ( view.isShown ) {
             return;
         }
-        view.isShown = true;
+
         view.el.classList.add( this.options.showClass );
+        view.isShown = true;
         this._closeViews( id );
-        this.list.children.forEach( Ymir.removeActive );
+
+        listItems = makeArray( this.list.children );
+        listItem = listItems.filter( Ymir.filterById( id ) )[0];
+        listItems.forEach( Ymir.removeActive( activeClass ) );
         if ( listItem ) {
-          listItem.classList.add( 'active' );
+            listItem.classList.add( activeClass );
         }
     }
 };
@@ -112,13 +119,21 @@ Ymir.prototype._appendToList = function( view, el ) {
     var el = document.createElement( this.options.listItemTagName || 'div' );
     el.innerHTML = view.id;
     el.setAttribute( 'data-linkto', view.id );
-    el.addEventListener( 'touchstart', this.open.bind( this, view.id, el ) );
-    el.addEventListener( 'click', this.open.bind( this, view.id, el ) );
+    el.addEventListener( 'touchstart', this.open.bind( this, view.id ) );
+    el.addEventListener( 'click', this.open.bind( this, view.id ) );
     this.list.appendChild( el );
 };
 
-Ymir.removeActive = function( listItem ) {
-    listItem.classList.remove( 'active' );
+Ymir.removeActive = function( activeClass ) {
+    return function( listItem ) {
+        listItem.classList.remove( activeClass );
+    };
+};
+
+Ymir.filterById = function( id ) {
+    return function( listItem ) {
+        return listItem.getAttribute( 'data-linkto' ) === id;
+    };
 };
 
 Ymir.isView = function( view ) {
@@ -128,3 +143,7 @@ Ymir.isView = function( view ) {
         view.el.tagName &&
         view.id; // test all requirements of a view
 };
+
+function makeArray( arr ) {
+    return Array.prototype.slice.call( arr, 0 );
+}

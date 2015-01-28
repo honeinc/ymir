@@ -109,9 +109,26 @@ test( 'testing Ymir::removeView', function( t ) {
 });
 
 test( 'testing Ymir.removeActive', function( t ) {
-    var foo = document.createElement( 'div' );
+    var foo = document.createElement( 'div' ),
+        bar = document.createElement( 'span' );
     foo.classList.add( 'active' );
-    Ymir.removeActive( foo );
-    t.equals( foo.classList.contains( 'active' ), false, 'when Ymir.removeActive is passed a DOM element the active class will be removed from that element' );
+    bar.classList.add( 'active-bar' );
+    t.equals( typeof Ymir.removeActive(), 'function', 'when Ymir.removeActive is called it returns a function or iterator' )
+    Ymir.removeActive( 'active' )( foo );
+    Ymir.removeActive( 'active-bar' )( bar );
+    t.equals( foo.classList.contains( 'active' ), false, 'when Ymir.removeActive return fn is passed a DOM element the class passes in fist argument or intial function will be removed from that element' );
+    t.equals( bar.classList.contains( 'active-bar' ), false, 'when Ymir.removeActive return fn is passed a DOM element the class passes in fist argument or intial function will be removed from that element' );
     t.end();
 });
+
+test( 'testing Ymir.filterById', function( t ) {
+    var foo = document.createElement( 'div' ),
+        bar = foo.cloneNode();
+
+    foo.setAttribute( 'data-linkto', 'baz' );
+    bar.setAttribute( 'data-linkto', 'qux' );
+    t.equals( typeof Ymir.filterById(), 'function', 'when Ymir.filterById is called it returns a function or iterator' );
+    t.equals( Ymir.filterById( 'baz' )( foo ), true, 'when Ymir.filterById return fn is called with a dom node that has an aatribute `data-linkto` thats value is the same as the `id` passed in the initial fn it will return true');
+    t.equals( Ymir.filterById( 'baz' )( bar ), false, 'when Ymir.filterById return fn is called with a dom node that has an aatribute `data-linkto` thats value is differnt then the `id` passed in the initial fn it will return false');    
+    t.end();
+} );
