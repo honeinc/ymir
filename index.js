@@ -91,7 +91,7 @@ Ymir.prototype.open = function( id, e ) {
 
         if ( view.linkto ) { // only on top level links remove active
             listItems = makeArray( this.list.children );
-            listItem = listItems.filter( Ymir.filterById( id ) )[0];
+            listItem = listItems.filter( Ymir.filterById( getNestedViewdId(view) ) )[0];
             listItems.forEach( Ymir.removeActive( activeClass ) );
             if ( listItem ) {
                 listItem.classList.add( activeClass );
@@ -149,3 +149,10 @@ Ymir.isView = function( view ) {
 function makeArray( arr ) {
     return Array.prototype.slice.call( arr, 0 );
 }
+
+function getNestedViewdId (obj) {
+    if (obj.options.parent){
+        return getNestedViewdId(obj.options.parent);
+    }
+    return obj.id;
+}   
