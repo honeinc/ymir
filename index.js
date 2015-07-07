@@ -89,13 +89,11 @@ Ymir.prototype.open = function( id, e ) {
         view.isShown = true;
         this._closeViews( id );
 
-        if ( view.linkto ) { // only on top level links remove active
-            listItems = makeArray( this.list.children );
-            listItem = listItems.filter( Ymir.filterById( getNestedViewdId(view) ) )[0];
-            listItems.forEach( Ymir.removeActive( activeClass ) );
-            if ( listItem ) {
-                listItem.classList.add( activeClass );
-            }
+        listItems = makeArray( this.list.children );
+        listItem = listItems.filter( Ymir.filterById( getNestedViewdId(view) ) )[0];
+        listItems.forEach( Ymir.removeActive( activeClass ) );
+        if ( listItem ) {
+            listItem.classList.add( activeClass );
         }
     }
 };
